@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.env.local
+.DS_Store
+*.md:Zone.Identifier
+caso-estudio-*.md
+design-spec.md
+Andrés_Corral_CV_EN.md

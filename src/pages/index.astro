@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import { projects } from '../data/projects';
+
+const lang = 'en';
+const t = (await import('../i18n/en.json')).default;
+---
+
+<BaseLayout title="Andrés Corral — Automation Engineer" description={t['hero.tagline']}>
+  <Nav {t} />
+  <main>
+    <Hero {t} />
+    <section class="projects" id="projects">
+      <div class="container">
+        <span class="section-label">{t['projects.all']}</span>
+        <h2 class="section-title">{t['projects.title']}</h2>
+        <div class="projects-list">
+          {projects.map((project, i) => (
+            <ProjectCard {project} index={i} {lang} />
+          ))}
+        </div>
+      </div>
+    </section>
+    <About {t} />
+    <Contact {t} />
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">{t['footer.copyright']}</p>
+    </div>
+  </footer>
+</BaseLayout>
+
+<style>
+  .projects {
+    padding: 120px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .projects-list {
+    margin-top: 48px;
+  }
+  .footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .footer-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-muted-strong);
+  }
+</style>

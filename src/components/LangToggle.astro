@@ -1,0 +1,35 @@
+---
+const currentLang = Astro.currentLocale || 'en';
+const targetLang = currentLang === 'es' ? 'en' : 'es';
+const targetPath = targetLang === 'en' ? '/' : '/es/';
+---
+
+<a href={targetPath} class="lang-toggle" aria-label={`Switch to ${targetLang === 'en' ? 'English' : 'Español'}`}>
+  <span class:list={{ active: currentLang === 'en' }}>EN</span>
+  <span class="separator">/</span>
+  <span class:list={{ active: currentLang === 'es' }}>ES</span>
+</a>
+
+<style>
+  .lang-toggle {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s ease;
+  }
+  .lang-toggle:hover {
+    color: var(--color-text);
+  }
+  .lang-toggle .active {
+    color: var(--color-accent);
+  }
+  .separator {
+    color: var(--color-muted-strong);
+    font-size: 10px;
+  }
+</style>

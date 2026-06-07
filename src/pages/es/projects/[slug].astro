@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import { projects, getAdjacentProjects, getProjectBySlug } from '../../../data/projects';
+
+export async function getStaticPaths() {
+  return projects.map(project => ({
+    params: { slug: project.slug },
+  }));
+}
+
+const lang = 'es';
+const t = (await import('../../../i18n/es.json')).default;
+
+const { slug } = Astro.params;
+const project = getProjectBySlug(slug);
+
+if (!project) {
+  return Astro.redirect('/es/404');
+}
+
+const content = project[lang];
+const { prev, next } = getAdjacentProjects(slug);
+const prefix = '/es';
+---
+
+<BaseLayout title={content.title} description={content.description}>
+  <Nav {t} />
+  <main class="project-page">
+    <div class="container">
+      <a href={prefix + '/#projects'} class="back-link">← {t['project.back']}</a>
+      
+      <header class="project-header">
+        <div class="project-meta-top">
+          <span class="project-index-label">{String(projects.findIndex(p => p.slug === slug) + 1).padStart(2, '0')}</span>
+          <span class="project-year-label">{project.year}</span>
+          <span class="project-role-label">{project.role[lang]}</span>
+        </div>
+        <h1 class="project-title-lg">{content.title}</h1>
+        <p class="project-subtitle">{content.subtitle}</p>
+      </header>
+
+      <div class="project-stack-bar">
+        {project.stack.map(s => <span class="stack-chip">{s}</span>)}
+      </div>
+
+      <section class="project-section">
+        <h2 class="section-heading">Problema</h2>
+        <p class="project-text">{content.problem}</p>
+      </section>
+
+      <section class="project-section">
+        <h2 class="section-heading">Solución</h2>
+        <p class="project-text">{content.solution}</p>
+      </section>
+
+      <section class="project-section">
+        <h2 class="section-heading">{t['projects.results']}</h2>
+        <ul class="results-list">
+          {content.results.map(r => <li class="result-item">{r}</li>)}
+        </ul>
+      </section>
+
+      <section class="project-section">
+        <h2 class="section-heading">Arquitectura</h2>
+        <pre class="architecture-diagram">{content.architecture}</pre>
+      </section>
+
+      <nav class="project-nav">
+        {prev ? (
+          <a href={prefix + '/projects/' + prev.slug} class="project-nav-link prev">
+            <span class="nav-direction">← {t['project.prev']}</span>
+            <span class="nav-title">{prev[lang].title}</span>
+          </a>
+        ) : <div />}
+        {next ? (
+          <a href={prefix + '/projects/' + next.slug} class="project-nav-link next">
+            <span class="nav-direction">{t['project.next']} →</span>
+            <span class="nav-title">{next[lang].title}</span>
+          </a>
+        ) : <div />}
+      </nav>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">{t['footer.copyright']}</p>
+    </div>
+  </footer>
+</BaseLayout>
+
+<style>
+  .project-page {
+    padding-top: calc(var(--nav-height) + 48px);
+    padding-bottom: 80px;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-muted);
+    margin-bottom: 48px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+  .project-header {
+    margin-bottom: 40px;
+  }
+  .project-meta-top {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .project-index-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-muted);
+  }
+  .project-year-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-muted-strong);
+  }
+  .project-role-label {
+    font-size: 11px;
+    color: var(--color-muted-strong);
+  }
+  .project-title-lg {
+    font-family: var(--font-heading);
+    font-size: clamp(32px, 6vw, 72px);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .project-subtitle {
+    font-size: 15px;
+    color: var(--color-muted);
+    line-height: 1.5;
+    max-width: 720px;
+  }
+  .project-stack-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 64px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .stack-chip {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 6px 14px;
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
+  }
+  .project-section {
+    margin-bottom: 64px;
+    max-width: 720px;
+  }
+  .section-heading {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted);
+    margin-bottom: 16px;
+  }
+  .project-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+  .results-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .result-item {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text);
+    padding-left: 20px;
+    position: relative;
+  }
+  .result-item::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+  }
+  .architecture-diagram {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--color-muted);
+    background: var(--color-surface);
+    padding: 24px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    border: 1px solid var(--color-border);
+  }
+  .project-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+  .project-nav-link {
+    text-decoration: none;
+    padding: 16px 24px;
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+  }
+  .project-nav-link:hover {
+    border-color: var(--color-accent);
+  }
+  .project-nav-link.next {
+    text-align: right;
+  }
+  .nav-direction {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-muted);
+    margin-bottom: 4px;
+  }
+  .nav-title {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    color: var(--color-text);
+  }
+  .project-nav-link:hover .nav-title {
+    color: var(--color-accent);
+  }
+  .footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .footer-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-muted-strong);
+  }
+</style>

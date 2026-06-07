@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <rect width="600" height="400" fill="#0D0E10"/>
+  <rect x="0" y="0" width="600" height="1" fill="rgba(255,255,255,0.08)"/>
+  <text x="30" y="50" font-family="'JetBrains Mono', monospace" font-size="10" fill="#888" xml:space="preserve">WORKFLOW: LINKEDIN PRE-NURTURING</text>
+  <rect x="30" y="70" width="540" height="1" fill="rgba(255,255,255,0.06)"/>
+  <text x="30" y="100" font-family="'JetBrains Mono', monospace" font-size="11" fill="#6EE7B7" xml:space="preserve">$ Workflow 1 — Detection & Drafting (every 6h)</text>
+  <text x="50" y="125" font-family="'JetBrains Mono', monospace" font-size="10" fill="#888" xml:space="preserve">├─ NocoDB → Apify (post search)</text>
+  <text x="50" y="145" font-family="'JetBrains Mono', monospace" font-size="10" fill="#888" xml:space="preserve">├─ Claude API → Strategic comment draft</text>
+  <text x="50" y="165" font-family="'JetBrains Mono', monospace" font-size="10" fill="#888" xml:space="preserve">└─ NocoDB → Status: Pending</text>
+  <text x="30" y="195" font-family="'JetBrains Mono', monospace" font-size="11" fill="#6EE7B7" xml:space="preserve">$ Workflow 2 — Publishing (on approval)</text>
+  <text x="50" y="220" font-family="'JetBrains Mono', monospace" font-size="10" fill="#888" xml:space="preserve">├─ NocoDB (filter: Approved)</text>
+  <text x="50" y="240" font-family="'JetBrains Mono', monospace" font-size="10" fill="#888" xml:space="preserve">├─ LinkedIn Social Actions API → POST</text>
+  <text x="50" y="260" font-family="'JetBrains Mono', monospace" font-size="10" fill="#888" xml:space="preserve">└─ NocoDB → Status: Published</text>
+  <rect x="30" y="290" width="540" height="1" fill="rgba(255,255,255,0.06)"/>
+  <text x="30" y="320" font-family="'JetBrains Mono', monospace" font-size="10" fill="#888" xml:space="preserve">STACK: n8n · Apify · NocoDB · Claude API · LinkedIn API v2</text>
+  <rect x="30" y="340" width="540" height="1" fill="rgba(255,255,255,0.06)"/>
+  <text x="30" y="365" font-family="'JetBrains Mono', monospace" font-size="10" fill="#6EE7B7" xml:space="preserve">STATUS: Production · 50-100 prospects monitored</text>
+</svg>

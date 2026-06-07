@@ -1,0 +1,40 @@
+---
+const targetText = "0123456789";
+---
+
+<div class="digit-counter" data-target={targetText} aria-hidden="true">
+  <span class="digit-row" id="counter-row">0123456789</span>
+</div>
+
+<script>
+  const row = document.getElementById('counter-row');
+  if (row) {
+    const chars = "0123456789";
+    let iteration = 0;
+    const interval = setInterval(() => {
+      row.textContent = iteration.toString().padStart(10, '0');
+      iteration++;
+      if (iteration > 9999999999) {
+        clearInterval(interval);
+        row.textContent = "0123456789";
+      }
+    }, 80);
+    setTimeout(() => clearInterval(interval), 2000);
+  }
+</script>
+
+<style>
+  .digit-counter {
+    font-family: var(--font-mono);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 300;
+    color: var(--color-muted-strong);
+    line-height: 1;
+    user-select: none;
+    overflow: hidden;
+  }
+  .digit-row {
+    display: block;
+    transition: none;
+  }
+</style>

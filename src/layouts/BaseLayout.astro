@@ -1,0 +1,27 @@
+---
+import '../styles/global.css';
+
+const { title, description } = Astro.props;
+const canonicalURL = Astro.url;
+const currentLang = Astro.currentLocale || 'en';
+---
+
+<!doctype html>
+<html lang={currentLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0A0B0D" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} | Andrés Corral</title>
+    <meta name="description" content={description || 'Senior Automation Engineer · AI Agent Architect · n8n Specialist'} />
+    <meta property="og:title" content={title ? `${title} | Andrés Corral` : 'Andrés Corral'} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

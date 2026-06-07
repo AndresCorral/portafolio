@@ -1,0 +1,70 @@
+---
+const t = Astro.props.t;
+---
+
+<section class="contact" id="contact">
+  <div class="container">
+    <span class="section-label">{t['nav.contact']}</span>
+    <h2 class="section-title">{t['contact.title']}</h2>
+    <p class="contact-desc">{t['contact.description']}</p>
+    <div class="contact-links">
+      <a href="mailto:andresco70@gmail.com" class="contact-item">
+        <span class="contact-icon">✉</span>
+        <span class="contact-text">{t['contact.email']}</span>
+      </a>
+      <a href="https://linkedin.com/in/andrescorral" target="_blank" rel="noopener" class="contact-item">
+        <span class="contact-icon">▣</span>
+        <span class="contact-text">{t['contact.linkedin']}</span>
+      </a>
+      <a href="https://github.com/AndresCorral" target="_blank" rel="noopener" class="contact-item">
+        <span class="contact-icon">◇</span>
+        <span class="contact-text">{t['contact.github']}</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding: 120px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .contact-desc {
+    font-size: 15px;
+    color: var(--color-muted);
+    margin-bottom: 48px;
+    max-width: 500px;
+  }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .contact-item:hover {
+    border-color: var(--color-accent);
+    background: rgba(110, 231, 183, 0.03);
+  }
+  .contact-item:hover .contact-text {
+    color: var(--color-accent);
+  }
+  .contact-icon {
+    font-size: 18px;
+    color: var(--color-muted-strong);
+    width: 24px;
+    text-align: center;
+  }
+  .contact-text {
+    font-size: 14px;
+    color: var(--color-text);
+    transition: color 0.3s ease;
+  }
+</style>

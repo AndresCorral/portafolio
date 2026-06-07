@@ -1,0 +1,61 @@
+---
+import LangToggle from './LangToggle.astro';
+
+const t = Astro.props.t;
+const currentLang = Astro.currentLocale || 'en';
+const prefix = currentLang === 'es' ? '/es' : '';
+---
+
+<nav class="nav">
+  <div class="nav-inner container">
+    <a href={prefix + '/'} class="nav-logo">AC</a>
+    <div class="nav-links">
+      <a href={prefix + '/#projects'} class="nav-link">{t['nav.projects']}</a>
+      <a href={prefix + '/#about'} class="nav-link">{t['nav.about']}</a>
+      <a href={prefix + '/#contact'} class="nav-link">{t['nav.contact']}</a>
+      <LangToggle />
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--nav-height);
+    background: rgba(10, 11, 13, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .nav-logo {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text);
+    letter-spacing: 0.06em;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .nav-link {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    transition: color 0.2s ease;
+  }
+  .nav-link:hover {
+    color: var(--color-text);
+  }
+</style>
