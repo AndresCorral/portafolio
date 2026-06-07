@@ -1,6 +1,6 @@
 ---
 const t = Astro.props.t;
-const currentLang = Astro.currentLocale || 'en';
+const currentLang = Astro.props.lang || 'en';
 const prefix = currentLang === 'es' ? '/es' : '';
 ---
 
