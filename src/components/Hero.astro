@@ -60,6 +60,7 @@ const t = Astro.props.t;
     position: relative;
     width: 600px;
     height: 600px;
+    max-width: 100%;
     overflow: hidden;
   }
   .hero-image-frame::after {
@@ -107,14 +108,17 @@ const t = Astro.props.t;
   @media (max-width: 1024px) {
     .hero-content {
       grid-template-columns: 1fr;
-      gap: 48px;
+      gap: 24px;
     }
     .hero-image {
       justify-content: center;
     }
     .hero-image-frame {
-      width: 400px;
-      height: 400px;
+      width: min(400px, 80vw);
+      height: min(400px, 80vw);
+    }
+    .hero-tagline {
+      margin-bottom: 24px;
     }
   }
 </style>
