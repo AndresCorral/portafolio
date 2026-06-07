@@ -6,12 +6,19 @@ const t = Astro.props.t;
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content container">
-    <DigitCounter />
-    <h1 class="hero-name">Andrés Corral</h1>
-    <p class="hero-subtitle">{t['hero.subtitle']}</p>
-    <p class="hero-tagline">{t['hero.tagline']}</p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn">{t['nav.projects']} ↓</a>
+    <div class="hero-text">
+      <DigitCounter />
+      <h1 class="hero-name">Andrés Corral</h1>
+      <p class="hero-subtitle">{t['hero.subtitle']}</p>
+      <p class="hero-tagline">{t['hero.tagline']}</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn">{t['nav.projects']} ↓</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="hero-image-frame">
+        <img src="/images/profile.png" alt="Andrés Corral" class="hero-img" />
+      </div>
     </div>
   </div>
 </section>
@@ -36,7 +43,39 @@ const t = Astro.props.t;
   .hero-content {
     position: relative;
     z-index: 1;
-    max-width: 900px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero-text {
+    max-width: 700px;
+  }
+  .hero-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-image-frame {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+  .hero-image-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), transparent 50%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   .hero-name {
     font-family: var(--font-heading);
@@ -62,5 +101,18 @@ const t = Astro.props.t;
   .hero-cta {
     display: flex;
     gap: 16px;
+  }
+  @media (max-width: 768px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .hero-image {
+      order: -1;
+    }
+    .hero-image-frame {
+      width: 200px;
+      height: 200px;
+    }
   }
 </style>
