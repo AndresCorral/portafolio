@@ -58,16 +58,18 @@ const t = Astro.props.t;
   }
   .hero-image-frame {
     position: relative;
-    width: 320px;
-    height: 320px;
+    width: 420px;
+    height: 420px;
     overflow: hidden;
-    border: 1px solid var(--color-border);
   }
-  .hero-image-frame::before {
+  .hero-image-frame::after {
     content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), transparent 50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent 0%, var(--color-bg) 100%);
     z-index: 1;
     pointer-events: none;
   }
@@ -102,17 +104,18 @@ const t = Astro.props.t;
     display: flex;
     gap: 16px;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .hero-content {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 48px;
     }
     .hero-image {
       order: -1;
+      justify-content: flex-start;
     }
     .hero-image-frame {
-      width: 200px;
-      height: 200px;
+      width: 280px;
+      height: 280px;
     }
   }
 </style>
