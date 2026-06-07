@@ -246,6 +246,11 @@ const prefix = currentLang === 'es' ? '/es' : '';
     transform: translateY(-6.5px) rotate(-45deg);
   }
 
+  .mobile-lang-nav {
+    display: none;
+    margin-right: 16px;
+  }
+
   @media (max-width: 768px) {
     .nav-desktop-links {
       display: none;
@@ -256,11 +261,6 @@ const prefix = currentLang === 'es' ? '/es' : '';
     .mobile-lang-nav {
       display: flex;
     }
-  }
-
-  .mobile-lang-nav {
-    display: none;
-    margin-right: 16px;
   }
 
   .drawer-overlay {
