@@ -23,114 +23,130 @@ const prefix = currentLang === 'es' ? '/es' : '';
       <span class="hamburger-line"></span>
     </button>
   </div>
+</nav>
 
-  <div class="mobile-overlay" id="mobile-overlay">
-    <div class="mobile-overlay-inner">
-      <button class="nav-link mobile-link" data-section="projects">{t['nav.projects']}</button>
-      <button class="nav-link mobile-link" data-section="about">{t['nav.about']}</button>
-      <button class="nav-link mobile-link" data-section="contact">{t['nav.contact']}</button>
-      <a href={currentLang === 'es' ? '/es' : '/'} class="lang-link mobile-lang">
+<div class="drawer-overlay" id="drawer-overlay"></div>
+
+<div class="drawer" id="drawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-content">
+    <div class="drawer-links">
+      <button class="drawer-link" data-section="projects">{t['nav.projects']}</button>
+      <button class="drawer-link" data-section="about">{t['nav.about']}</button>
+      <button class="drawer-link" data-section="contact">{t['nav.contact']}</button>
+      <a href={currentLang === 'es' ? '/es' : '/'} class="lang-link drawer-lang">
         <span class:list={{ active: currentLang === 'en' }}>EN</span>
         <span class="sep">/</span>
         <span class:list={{ active: currentLang === 'es' }}>ES</span>
       </a>
     </div>
   </div>
+</div>
 
-  <div class="about-modal" id="about-modal">
-    <div class="about-modal-backdrop"></div>
-    <div class="about-modal-content container">
-      <button class="modal-close" id="modal-close">✕</button>
-      <div class="about-modal-body">
-        <div class="about-modal-image">
-          <div class="modal-image-frame">
-            <img src="/images/profile.png" alt="Andrés Corral" class="modal-img" />
+<div class="about-modal" id="about-modal">
+  <div class="about-modal-backdrop"></div>
+  <div class="about-modal-content container">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div class="about-modal-body">
+      <div class="about-modal-image">
+        <div class="modal-image-frame">
+          <img src="/images/profile.png" alt="Andrés Corral" class="modal-img" />
+        </div>
+      </div>
+      <div class="about-modal-text">
+        <span class="section-label">{t['nav.about']}</span>
+        <h2 class="modal-title">{t['about.title']}</h2>
+        <p class="modal-description">{t['about.description']}</p>
+        <div class="modal-skills">
+          <div class="skill-group">
+            <h3 class="skill-label">Orchestration</h3>
+            <div class="skill-tags"><span>n8n</span><span>Make</span><span>Zapier</span></div>
+          </div>
+          <div class="skill-group">
+            <h3 class="skill-label">LLMs & Agents</h3>
+            <div class="skill-tags"><span>Claude</span><span>Gemini</span><span>GPT-4</span><span>LangChain</span></div>
+          </div>
+          <div class="skill-group">
+            <h3 class="skill-label">Context Engineering</h3>
+            <div class="skill-tags"><span>RAG</span><span>Pinecone</span><span>Embeddings</span></div>
+          </div>
+          <div class="skill-group">
+            <h3 class="skill-label">APIs</h3>
+            <div class="skill-tags"><span>WhatsApp Business</span><span>LinkedIn API</span><span>Gmail</span><span>Odoo</span></div>
+          </div>
+          <div class="skill-group">
+            <h3 class="skill-label">Databases</h3>
+            <div class="skill-tags"><span>NocoDB</span><span>Airtable</span><span>PostgreSQL</span><span>Supabase</span></div>
+          </div>
+          <div class="skill-group">
+            <h3 class="skill-label">Development</h3>
+            <div class="skill-tags"><span>Python</span><span>FastAPI</span><span>TypeScript</span><span>SQL</span></div>
           </div>
         </div>
-        <div class="about-modal-text">
-          <span class="section-label">{t['nav.about']}</span>
-          <h2 class="modal-title">{t['about.title']}</h2>
-          <p class="modal-description">{t['about.description']}</p>
-          <div class="modal-skills">
-            <div class="skill-group">
-              <h3 class="skill-label">Orchestration</h3>
-              <div class="skill-tags"><span>n8n</span><span>Make</span><span>Zapier</span></div>
-            </div>
-            <div class="skill-group">
-              <h3 class="skill-label">LLMs & Agents</h3>
-              <div class="skill-tags"><span>Claude</span><span>Gemini</span><span>GPT-4</span><span>LangChain</span></div>
-            </div>
-            <div class="skill-group">
-              <h3 class="skill-label">Context Engineering</h3>
-              <div class="skill-tags"><span>RAG</span><span>Pinecone</span><span>Embeddings</span></div>
-            </div>
-            <div class="skill-group">
-              <h3 class="skill-label">APIs</h3>
-              <div class="skill-tags"><span>WhatsApp Business</span><span>LinkedIn API</span><span>Gmail</span><span>Odoo</span></div>
-            </div>
-            <div class="skill-group">
-              <h3 class="skill-label">Databases</h3>
-              <div class="skill-tags"><span>NocoDB</span><span>Airtable</span><span>PostgreSQL</span><span>Supabase</span></div>
-            </div>
-            <div class="skill-group">
-              <h3 class="skill-label">Development</h3>
-              <div class="skill-tags"><span>Python</span><span>FastAPI</span><span>TypeScript</span><span>SQL</span></div>
-            </div>
-          </div>
-          <a href={currentLang === 'es' ? '/files/CV_Andres_Corral_ES.pdf' : '/files/CV_Andres_Corral_EN.pdf'} class="btn" download>
-            ↓ {t['about.downloadCv']}
-          </a>
-        </div>
+        <a href={currentLang === 'es' ? '/files/CV_Andres_Corral_ES.pdf' : '/files/CV_Andres_Corral_EN.pdf'} class="btn" download>
+          ↓ {t['about.downloadCv']}
+        </a>
       </div>
     </div>
   </div>
-</nav>
+</div>
 
 <script>
   const hamburger = document.getElementById('hamburger');
-  const overlay = document.getElementById('mobile-overlay');
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('drawer-overlay');
 
-  if (hamburger && overlay) {
+  function openDrawer() {
+    hamburger.setAttribute('aria-expanded', 'true');
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    document.body.classList.add('drawer-open');
+  }
+
+  function closeDrawer() {
+    hamburger.setAttribute('aria-expanded', 'false');
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+  }
+
+  if (hamburger && drawer) {
     hamburger.addEventListener('click', () => {
       const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-      hamburger.setAttribute('aria-expanded', !expanded);
-      overlay.classList.toggle('open');
-      document.body.classList.toggle('nav-open');
+      expanded ? closeDrawer() : openDrawer();
     });
 
-    overlay.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => {
-        overlay.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('nav-open');
-      });
+    drawer.querySelectorAll('.drawer-link').forEach(link => {
+      link.addEventListener('click', closeDrawer);
     });
+
+    if (overlay) overlay.addEventListener('click', closeDrawer);
   }
 
   const aboutModal = document.getElementById('about-modal');
-  const modalClose = document.getElementById('modal-close');
 
   function openAboutModal() {
-    if (aboutModal) aboutModal.classList.add('open');
-    if (overlay) overlay.classList.remove('open');
-    if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('nav-open');
+    aboutModal.classList.add('open');
+    closeDrawer();
   }
 
   function closeAboutModal() {
-    if (aboutModal) aboutModal.classList.remove('open');
+    aboutModal.classList.remove('open');
   }
 
   document.querySelectorAll('[data-section="about"]').forEach(btn => {
     btn.addEventListener('click', openAboutModal);
   });
 
-  if (modalClose) modalClose.addEventListener('click', closeAboutModal);
-  if (aboutModal) aboutModal.addEventListener('click', (e) => {
+  document.getElementById('modal-close')?.addEventListener('click', closeAboutModal);
+  aboutModal?.addEventListener('click', (e) => {
     if (e.target === aboutModal || e.target.classList.contains('about-modal-backdrop')) closeAboutModal();
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAboutModal();
+    if (e.key === 'Escape') {
+      closeAboutModal();
+      closeDrawer();
+    }
   });
 </script>
 
@@ -230,35 +246,6 @@ const prefix = currentLang === 'es' ? '/es' : '';
     transform: translateY(-6.5px) rotate(-45deg);
   }
 
-  .mobile-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 99;
-    background: #0A0B0D;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .mobile-overlay.open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .mobile-overlay-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    gap: 32px;
-  }
-  .mobile-link {
-    font-size: 18px;
-  }
-  .mobile-lang {
-    margin-top: 16px;
-  }
-
   @media (max-width: 768px) {
     .nav-desktop-links {
       display: none;
@@ -266,10 +253,88 @@ const prefix = currentLang === 'es' ? '/es' : '';
     .hamburger {
       display: flex;
     }
-    .mobile-overlay {
+  }
+
+  .drawer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 199;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .drawer-overlay.open {
+    opacity: 1;
+  }
+
+  .drawer {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: #0D0E10;
+    border-top: 1px solid var(--color-border);
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .drawer.open {
+    transform: translateY(0);
+  }
+
+  .drawer-handle {
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-muted-strong);
+    margin: 10px auto 0;
+  }
+
+  .drawer-content {
+    padding: 24px 32px 40px;
+  }
+
+  .drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .drawer-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--color-text);
+    padding: 8px 0;
+    text-align: left;
+    transition: color 0.2s ease;
+  }
+  .drawer-link:hover {
+    color: var(--color-accent);
+  }
+
+  .drawer-lang {
+    margin-top: 8px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 768px) {
+    .drawer-overlay {
+      display: block;
+      pointer-events: none;
+    }
+    .drawer-overlay.open {
+      pointer-events: auto;
+    }
+    .drawer {
       display: block;
     }
-    body.nav-open {
+    body.drawer-open {
       overflow: hidden;
     }
   }
@@ -278,7 +343,7 @@ const prefix = currentLang === 'es' ? '/es' : '';
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 200;
+    z-index: 300;
     align-items: center;
     justify-content: center;
   }
