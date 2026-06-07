@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import About from '../components/About.astro';
 import Contact from '../components/Contact.astro';
 import { projects } from '../data/projects';
 
@@ -26,7 +25,6 @@ const t = (await import('../i18n/en.json')).default;
         </div>
       </div>
     </section>
-    <About {t} />
     <Contact {t} />
   </main>
   <footer class="footer">
