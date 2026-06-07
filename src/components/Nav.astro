@@ -96,6 +96,8 @@ const prefix = currentLang === 'es' ? '/es' : '';
     cursor: pointer;
     z-index: 110;
     padding: 0;
+    position: relative;
+    right: 5%;
   }
   .hamburger-line {
     display: block;
@@ -141,6 +143,9 @@ const prefix = currentLang === 'es' ? '/es' : '';
     }
     .nav-link {
       font-size: 18px;
+    }
+    body.nav-open {
+      overflow: hidden;
     }
   }
 </style>

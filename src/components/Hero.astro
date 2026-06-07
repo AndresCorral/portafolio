@@ -87,6 +87,8 @@ const t = Astro.props.t;
     height: 100%;
     object-fit: cover;
     display: block;
+    mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, black 65%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, black 65%, transparent 100%);
   }
   .hero-name {
     font-family: var(--font-heading);
