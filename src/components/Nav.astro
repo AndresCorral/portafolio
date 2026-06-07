@@ -17,6 +17,11 @@ const prefix = currentLang === 'es' ? '/es' : '';
         <span class:list={{ active: currentLang === 'es' }}>ES</span>
       </a>
     </div>
+    <a href={currentLang === 'es' ? '/es' : '/'} class="lang-link mobile-lang-nav">
+      <span class:list={{ active: currentLang === 'en' }}>EN</span>
+      <span class="sep">/</span>
+      <span class:list={{ active: currentLang === 'es' }}>ES</span>
+    </a>
     <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
@@ -34,11 +39,6 @@ const prefix = currentLang === 'es' ? '/es' : '';
       <button class="drawer-link" data-section="projects">{t['nav.projects']}</button>
       <button class="drawer-link" data-section="about">{t['nav.about']}</button>
       <button class="drawer-link" data-section="contact">{t['nav.contact']}</button>
-      <a href={currentLang === 'es' ? '/es' : '/'} class="lang-link drawer-lang">
-        <span class:list={{ active: currentLang === 'en' }}>EN</span>
-        <span class="sep">/</span>
-        <span class:list={{ active: currentLang === 'es' }}>ES</span>
-      </a>
     </div>
   </div>
 </div>
@@ -253,6 +253,14 @@ const prefix = currentLang === 'es' ? '/es' : '';
     .hamburger {
       display: flex;
     }
+    .mobile-lang-nav {
+      display: flex;
+    }
+  }
+
+  .mobile-lang-nav {
+    display: none;
+    margin-right: 16px;
   }
 
   .drawer-overlay {
