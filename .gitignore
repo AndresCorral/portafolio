@@ -1,5 +1,6 @@
 node_modules/
 dist/
+.astro/
 .env
 .env.local
 .DS_Store
@@ -7,3 +8,5 @@ dist/
 caso-estudio-*.md
 design-spec.md
 Andrés_Corral_CV_EN.md
+
+.vercel
