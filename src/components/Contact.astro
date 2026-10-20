@@ -5,20 +5,14 @@ const t = Astro.props.t;
 <section class="contact" id="contact">
   <div class="container">
     <span class="section-label">{t['nav.contact']}</span>
-    <h2 class="section-title">{t['contact.title']}</h2>
-    <p class="contact-desc">{t['contact.description']}</p>
+    <h2 class="contact-title">{t['contact.description']}</h2>
+    <a class="contact-email" href="mailto:andresco70@gmail.com">{t['contact.email']}</a>
     <div class="contact-links">
-      <a href="mailto:andresco70@gmail.com" class="contact-item">
-        <span class="contact-icon">✉</span>
-        <span class="contact-text">{t['contact.email']}</span>
+      <a href="https://linkedin.com/in/andrescorral" target="_blank" rel="noopener" class="btn btn-light">
+        {t['contact.linkedin']} <span aria-hidden="true">↗</span>
       </a>
-      <a href="https://linkedin.com/in/andrescorral" target="_blank" rel="noopener" class="contact-item">
-        <span class="contact-icon">▣</span>
-        <span class="contact-text">{t['contact.linkedin']}</span>
-      </a>
-      <a href="https://github.com/AndresCorral" target="_blank" rel="noopener" class="contact-item">
-        <span class="contact-icon">◇</span>
-        <span class="contact-text">{t['contact.github']}</span>
+      <a href="https://github.com/AndresCorral" target="_blank" rel="noopener" class="btn btn-light">
+        {t['contact.github']} <span aria-hidden="true">↗</span>
       </a>
     </div>
   </div>
@@ -26,45 +20,48 @@ const t = Astro.props.t;
 
 <style>
   .contact {
-    padding: 120px 0;
-    border-top: 1px solid var(--color-border);
+    background: var(--color-ink);
+    color: #F3F0E8;
+    padding: 120px 0 96px;
   }
-  .contact-desc {
-    font-size: 15px;
-    color: var(--color-muted);
-    margin-bottom: 48px;
-    max-width: 500px;
+  .contact .section-label {
+    color: var(--color-accent);
+  }
+  .contact-title {
+    font-family: var(--font-heading);
+    font-size: clamp(44px, 8vw, 88px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    max-width: 960px;
+    margin-bottom: 36px;
+  }
+  .contact-email {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: clamp(24px, 4vw, 44px);
+    font-weight: 700;
+    color: var(--color-accent);
+    border-bottom: 3px solid var(--color-accent);
+    padding-bottom: 4px;
+    margin-bottom: 40px;
+    word-break: break-all;
+  }
+  .contact-email:hover {
+    color: #FFFFFF;
+    border-color: #FFFFFF;
   }
   .contact-links {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 14px;
   }
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 24px;
-    border: 1px solid var(--color-border);
-    transition: all 0.3s ease;
-    text-decoration: none;
+  .btn-light {
+    border-color: #F3F0E8;
+    color: #F3F0E8;
   }
-  .contact-item:hover {
-    border-color: var(--color-accent);
-    background: rgba(110, 231, 183, 0.03);
-  }
-  .contact-item:hover .contact-text {
-    color: var(--color-accent);
-  }
-  .contact-icon {
-    font-size: 18px;
-    color: var(--color-muted-strong);
-    width: 24px;
-    text-align: center;
-  }
-  .contact-text {
-    font-size: 14px;
-    color: var(--color-text);
-    transition: color 0.3s ease;
+  .btn-light:hover {
+    background: #F3F0E8;
+    color: var(--color-ink);
   }
 </style>

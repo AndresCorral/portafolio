@@ -2,105 +2,136 @@
 const { project, index, lang } = Astro.props;
 const content = project[lang];
 const prefix = lang === 'es' ? '/es' : '';
+const featured = index === 0;
+const sizeClass = index <= 1 ? 'span-3' : 'span-2';
+const tags = project.stack.slice(0, featured ? 4 : 3);
+const extra = project.stack.length - tags.length;
 ---
 
-<a href={prefix + '/projects/' + project.slug} class="project-card">
-  <div class="project-index">{String(index + 1).padStart(2, '0')}</div>
-  <div class="project-info">
+<a href={prefix + '/projects/' + project.slug} class:list={['project-card', sizeClass, { dark: featured }]}>
+  <div class="project-top">
+    <span class="mono num">{String(index + 1).padStart(2, '0')}</span>
+    <span class="mono">{project.year}</span>
+  </div>
+  <div class="project-body">
     <h2 class="project-title">{content.title}</h2>
     <p class="project-desc">{content.description}</p>
-    <div class="project-meta">
-      <span class="project-year">{project.year}</span>
-      <span class="project-role">{project.role[lang]}</span>
-    </div>
-    <div class="project-stack">
-      {project.stack.slice(0, 4).map(s => <span class="stack-tag">{s}</span>)}
-      {project.stack.length > 4 && <span class="stack-tag">+{project.stack.length - 4}</span>}
-    </div>
   </div>
-  <div class="project-arrow">→</div>
+  <div class="project-foot">
+    <div class="project-stack">
+      {tags.map(s => <span class="pill">{s}</span>)}
+      {extra > 0 && <span class="pill">+{extra}</span>}
+    </div>
+    <span class="mono cta">{project.role[lang]} <span class="arrow" aria-hidden="true">→</span></span>
+  </div>
 </a>
 
 <style>
   .project-card {
-    display: grid;
-    grid-template-columns: 48px 1fr 32px;
-    gap: 24px;
-    padding: 32px 0;
-    border-bottom: 1px solid var(--color-border);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    align-items: start;
-  }
-  .project-card:last-child {
-    border-bottom: none;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 300px;
+    color: var(--color-text);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   .project-card:hover {
-    padding-left: 12px;
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -20px rgba(18, 19, 20, 0.35);
+    color: var(--color-text);
   }
-  .project-card:hover .project-title {
-    color: var(--color-accent);
+  .project-card:hover .arrow {
+    transform: translate(4px, -4px);
   }
-  .project-card:hover .project-arrow {
-    transform: translateX(4px);
-    color: var(--color-accent);
+  .project-card.dark {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: #F3F0E8;
+    min-height: 380px;
   }
-  .project-index {
+  .project-card.dark:hover {
+    color: #F3F0E8;
+  }
+  .span-3 {
+    grid-column: span 3;
+  }
+  .span-2 {
+    grid-column: span 2;
+  }
+  .project-top {
+    display: flex;
+    justify-content: space-between;
     font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--color-muted);
-    padding-top: 4px;
+    font-size: 12px;
+    color: var(--color-muted-strong);
   }
-  .project-info {
-    min-width: 0;
+  .project-card.dark .project-top,
+  .project-card.dark .cta {
+    color: #A8A59B;
+  }
+  .project-card.dark .num {
+    color: var(--color-accent);
+  }
+  .project-body {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
   .project-title {
     font-family: var(--font-heading);
-    font-size: clamp(24px, 4vw, 48px);
-    font-weight: 400;
-    line-height: 1.2;
-    margin-bottom: 8px;
-    transition: color 0.3s ease;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .project-card.dark .project-title {
+    font-size: 40px;
+    line-height: 1.05;
   }
   .project-desc {
-    font-size: 13px;
-    color: var(--color-muted);
+    font-size: 16px;
     line-height: 1.5;
-    margin-bottom: 12px;
+    color: var(--color-muted);
   }
-  .project-meta {
+  .project-card.dark .project-desc {
+    font-size: 18px;
+    color: #C9C6BC;
+    max-width: 520px;
+  }
+  .project-foot {
     display: flex;
-    gap: 16px;
-    margin-bottom: 12px;
-  }
-  .project-year {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--color-muted-strong);
-  }
-  .project-role {
-    font-size: 11px;
-    color: var(--color-muted-strong);
+    flex-direction: column;
+    gap: 14px;
   }
   .project-stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
   }
-  .stack-tag {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 2px 8px;
-    border: 1px solid var(--color-border);
-    color: var(--color-muted);
-    letter-spacing: 0.02em;
+  .project-card.dark .pill {
+    border-color: #3A3C40;
+    color: #F3F0E8;
   }
-  .project-arrow {
-    font-family: var(--font-mono);
-    font-size: 16px;
+  .cta {
     color: var(--color-muted-strong);
-    transition: all 0.3s ease;
-    padding-top: 4px;
+  }
+  .arrow {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  @media (max-width: 860px) {
+    .span-3,
+    .span-2 {
+      grid-column: span 1;
+    }
+    .project-card {
+      padding: 24px;
+    }
   }
 </style>

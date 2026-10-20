@@ -1,19 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --color-bg: #0A0B0D;
-  --color-surface: #0D0E10;
-  --color-text: #F0F0F0;
-  --color-muted: #888888;
-  --color-muted-strong: #555555;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-accent: #6EE7B7;
+  --color-bg: #F3F0E8;
+  --color-surface: #ECE8DC;
+  --color-ink: #121314;
+  --color-text: #121314;
+  --color-muted: #4A4944;
+  --color-muted-strong: #66645D;
+  --color-border: #D9D4C7;
+  --color-card: #FFFFFF;
+  --color-accent: #FF5A1F;
+  --color-accent-text: #B5400F;
 
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-heading: 'Inter Tight', system-ui, sans-serif;
+  --font-body: 'Inter Tight', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  --nav-height: 72px;
+  --nav-height: 76px;
   --padding-h: clamp(24px, 5vw, 80px);
 }
 
@@ -27,11 +30,12 @@ html {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-weight: 300;
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.6;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -42,17 +46,17 @@ body {
 
 ::selection {
   background: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-ink);
 }
 
 a {
   color: var(--color-text);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 a:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 img {
@@ -62,31 +66,33 @@ img {
 }
 
 .container {
-  max-width: 1440px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--padding-h);
 }
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: clamp(48px, 8vw, 120px);
-  font-weight: 400;
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
   color: var(--color-text);
-  line-height: 1;
-  margin-bottom: 64px;
+  line-height: 0.98;
+  margin-bottom: 56px;
 }
 
 .section-label {
+  display: block;
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-muted);
+  font-size: 12px;
+  color: var(--color-muted-strong);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-bottom: 16px;
+  letter-spacing: 0.06em;
+  margin-bottom: 18px;
 }
 
 .accent {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .muted {
@@ -96,30 +102,53 @@ img {
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  border: 1px solid var(--color-border);
-  border-radius: 0;
+  gap: 10px;
+  padding: 14px 22px;
+  border: 2px solid var(--color-ink);
+  border-radius: 999px;
   background: transparent;
-  color: var(--color-text);
+  color: var(--color-ink);
   font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .btn:hover {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.btn-accent {
+  background: var(--color-accent);
   border-color: var(--color-accent);
-  color: var(--color-accent);
-  background: rgba(110, 231, 183, 0.05);
+  color: var(--color-ink);
+}
+
+.btn-accent:hover {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px 11px;
+  border: 1px solid var(--color-ink);
+  border-radius: 999px;
+  color: var(--color-ink);
+  background: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

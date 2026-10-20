@@ -25,5 +25,13 @@
   "project.prev": "Previous Project",
   "project.next": "Next Project",
   "project.back": "All Projects",
-  "loader.loading": "Loading"
+  "loader.loading": "Loading",
+  "hero.status": "Available for projects · consulting · full-time",
+  "hero.diagram": "Diagram: a WhatsApp message goes to an AI agent, which updates Odoo and sends a report by Gmail",
+  "hero.diagramCaption": "Example flow · Aurora, AI field assistant",
+  "about.badge": "Automation Engineer",
+  "about.headline": "I build systems that work while the team sleeps.",
+  "about.stat1": "years building",
+  "about.stat2": "production projects",
+  "about.stat3": "B2B clients"
 }

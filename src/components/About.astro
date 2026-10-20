@@ -1,64 +1,51 @@
 ---
 const t = Astro.props.t;
-const lang = Astro.currentLocale || 'en';
+const lang = Astro.props.lang || 'en';
+const cvHref = lang === 'es' ? '/files/CV_Andres_Corral_ES.pdf' : '/files/CV_Andres_Corral_EN.pdf';
+const skills = [
+  { label: 'Orchestration', items: ['n8n', 'Make', 'Zapier'] },
+  { label: 'LLMs & Agents', items: ['Claude', 'Gemini', 'GPT-4', 'LangChain'] },
+  { label: 'Context', items: ['RAG', 'Pinecone', 'Embeddings'] },
+  { label: 'APIs', items: ['WhatsApp Business', 'LinkedIn API', 'Gmail', 'Odoo'] },
+  { label: 'Databases', items: ['NocoDB', 'Airtable', 'PostgreSQL', 'Supabase'] },
+  { label: 'Development', items: ['Python', 'FastAPI', 'TypeScript', 'SQL'] },
+  { label: 'Observability', items: ['Langfuse', 'PostHog', 'Docker'] },
+];
 ---
 
 <section class="about" id="about">
-  <div class="container">
-    <span class="section-label">{t['nav.about']}</span>
-    <h2 class="section-title">{t['about.title']}</h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <p class="about-description">{t['about.description']}</p>
-        <div class="about-cta">
-          <a href={lang === 'es' ? '/files/CV_Andres_Corral_ES.pdf' : '/files/CV_Andres_Corral_EN.pdf'} class="btn" download>
-            ↓ {t['about.downloadCv']}
-          </a>
-        </div>
+  <div class="container about-grid">
+    <div class="photo-col">
+      <div class="photo-frame">
+        <img src="/images/profile.png" alt="Andrés Corral" class="photo" loading="lazy" />
       </div>
-      <div class="about-skills">
-        <div class="skill-group">
-          <h3 class="skill-label">Orchestration</h3>
-          <div class="skill-tags">
-            <span>n8n</span><span>Make</span><span>Zapier</span>
+      <div class="photo-badge">{t['about.badge']}</div>
+    </div>
+
+    <div class="text-col">
+      <span class="section-label">{t['nav.about']}</span>
+      <h2 class="about-headline">{t['about.headline']}</h2>
+      <p class="about-description">{t['about.description']}</p>
+
+      <div class="stats">
+        <div class="stat"><div class="stat-value">5+</div><div class="mono stat-label">{t['about.stat1']}</div></div>
+        <div class="stat"><div class="stat-value">15+</div><div class="mono stat-label">{t['about.stat2']}</div></div>
+        <div class="stat"><div class="stat-value">LATAM</div><div class="mono stat-label">{t['about.stat3']}</div></div>
+      </div>
+
+      <div class="skills">
+        {skills.map((group) => (
+          <div class="skill-row">
+            <span class="mono skill-label">{group.label}</span>
+            <div class="tags">
+              {group.items.map((item) => <span class="pill">{item}</span>)}
+            </div>
           </div>
-        </div>
-        <div class="skill-group">
-          <h3 class="skill-label">LLMs & Agents</h3>
-          <div class="skill-tags">
-            <span>Claude</span><span>Gemini</span><span>GPT-4</span><span>LangChain</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <h3 class="skill-label">Context Engineering</h3>
-          <div class="skill-tags">
-            <span>RAG</span><span>Pinecone</span><span>Embeddings</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <h3 class="skill-label">APIs</h3>
-          <div class="skill-tags">
-            <span>WhatsApp Business</span><span>LinkedIn API</span><span>Gmail</span><span>Odoo</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <h3 class="skill-label">Databases</h3>
-          <div class="skill-tags">
-            <span>NocoDB</span><span>Airtable</span><span>PostgreSQL</span><span>Supabase</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <h3 class="skill-label">Development</h3>
-          <div class="skill-tags">
-            <span>Python</span><span>FastAPI</span><span>TypeScript</span><span>SQL</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <h3 class="skill-label">Observability</h3>
-          <div class="skill-tags">
-            <span>Langfuse</span><span>PostHog</span><span>Docker</span>
-          </div>
-        </div>
+        ))}
+      </div>
+
+      <div class="about-cta">
+        <a href={cvHref} class="btn btn-accent" download>↓ {t['about.downloadCv']}</a>
       </div>
     </div>
   </div>
@@ -67,50 +54,130 @@ const lang = Astro.currentLocale || 'en';
 <style>
   .about {
     padding: 120px 0;
+    background: var(--color-surface);
     border-top: 1px solid var(--color-border);
   }
   .about-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    grid-template-columns: 5fr 6fr;
+    gap: 72px;
+    align-items: start;
+  }
+  .photo-col {
+    position: relative;
+  }
+  .photo-frame {
+    aspect-ratio: 4 / 5;
+    border-radius: 24px;
+    background: var(--color-ink);
+    overflow: hidden;
+  }
+  .photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .photo-badge {
+    position: absolute;
+    right: -16px;
+    bottom: -16px;
+    background: var(--color-accent);
+    color: var(--color-ink);
+    border-radius: 16px;
+    padding: 14px 18px;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 1.2;
+  }
+  .section-label {
+    margin-bottom: 18px;
+  }
+  .about-headline {
+    font-family: var(--font-heading);
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    margin-bottom: 24px;
   }
   .about-description {
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--color-text);
-    margin-bottom: 32px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--color-muted);
+    margin-bottom: 36px;
   }
-  .about-cta {
-    display: flex;
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+    margin-bottom: 36px;
   }
-  .skill-group {
-    margin-bottom: 20px;
+  .stat {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 18px;
+  }
+  .stat-value {
+    font-family: var(--font-heading);
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .stat-label {
+    color: var(--color-muted-strong);
+    font-size: 12px;
+  }
+  .skills {
+    margin-bottom: 40px;
+  }
+  .skill-row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 14px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .skill-row:last-child {
+    border-bottom: 1px solid var(--color-border);
   }
   .skill-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
+    padding-top: 6px;
+    color: var(--color-muted-strong);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-muted);
-    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+    font-size: 11px;
   }
-  .skill-tags {
+  .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
   }
-  .skill-tags span {
+  .mono {
     font-family: var(--font-mono);
-    font-size: 11px;
-    padding: 4px 10px;
-    border: 1px solid var(--color-border);
-    color: var(--color-muted);
+    font-size: 12px;
   }
-  @media (max-width: 768px) {
+
+  @media (max-width: 860px) {
+    .about {
+      padding: 80px 0;
+    }
     .about-grid {
       grid-template-columns: 1fr;
-      gap: 48px;
+      gap: 56px;
+    }
+    .photo-frame {
+      max-width: 360px;
+    }
+    .skill-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .stats {
+      grid-template-columns: 1fr;
     }
   }
 </style>

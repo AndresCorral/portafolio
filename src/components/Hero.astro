@@ -1,127 +1,198 @@
 ---
-import DigitCounter from './DigitCounter.astro';
 const t = Astro.props.t;
+const tools = ['n8n', 'Make', 'Zapier', 'Claude', 'Gemini', 'GPT-4', 'LangChain', 'RAG', 'Pinecone', 'WhatsApp Business', 'LinkedIn API', 'Odoo', 'Supabase', 'PostgreSQL', 'FastAPI'];
 ---
 
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content container">
+<section class="hero" id="top">
+  <div class="container hero-grid">
     <div class="hero-text">
-      <DigitCounter />
-      <h1 class="hero-name">Andrés Corral</h1>
+      <p class="hero-status">{t['hero.status']}</p>
+      <h1 class="hero-name">Andrés<br />Corral</h1>
       <p class="hero-subtitle">{t['hero.subtitle']}</p>
       <p class="hero-tagline">{t['hero.tagline']}</p>
       <div class="hero-cta">
-        <a href="#projects" class="btn">{t['nav.projects']} ↓</a>
+        <a href="#projects" class="btn btn-accent">{t['nav.projects']} <span aria-hidden="true">↓</span></a>
+        <a href="#contact" class="btn">{t['nav.contact']}</a>
       </div>
     </div>
-    <div class="hero-image">
-      <div class="hero-image-frame">
-        <img src="/images/profile.png" alt="Andrés Corral" class="hero-img" />
+
+    <div class="flow-card" aria-hidden="false">
+      <div class="flow-head">
+        <span class="mono muted-on-dark">live · workflow</span>
+        <span class="mono accent-on-dark">● running</span>
       </div>
+      <svg viewBox="0 0 520 400" width="100%" role="img" aria-label={t['hero.diagram']} class="flow-svg">
+        <g stroke="#F3F0E8" stroke-width="2" fill="none">
+          <path class="flow" d="M150 96 C 200 96, 210 200, 260 200" stroke="#FF5A1F" />
+          <path class="flow" d="M260 200 C 310 200, 320 96, 370 96" />
+          <path class="flow" d="M260 200 C 300 230, 300 300, 260 320" stroke="#FF5A1F" />
+          <path class="flow" d="M260 200 C 220 230, 220 300, 150 304" />
+        </g>
+        <g font-family="Inter Tight, sans-serif">
+          <rect x="40" y="62" width="160" height="68" rx="16" fill="#1E2023" stroke="#3A3C40" />
+          <text x="120" y="92" text-anchor="middle" fill="#F3F0E8" font-size="18" font-weight="700">WhatsApp</text>
+          <text x="120" y="114" text-anchor="middle" fill="#A8A59B" font-size="13" font-family="JetBrains Mono, monospace">incoming</text>
+
+          <rect x="300" y="62" width="160" height="68" rx="16" fill="#1E2023" stroke="#3A3C40" />
+          <text x="380" y="92" text-anchor="middle" fill="#F3F0E8" font-size="18" font-weight="700">Odoo</text>
+          <text x="380" y="114" text-anchor="middle" fill="#A8A59B" font-size="13" font-family="JetBrains Mono, monospace">CRM / ERP</text>
+
+          <rect x="180" y="160" width="160" height="80" rx="20" fill="#FF5A1F" />
+          <text x="260" y="194" text-anchor="middle" fill="#121314" font-size="20" font-weight="800">AI Agent</text>
+          <text x="260" y="218" text-anchor="middle" fill="#121314" font-size="13" font-family="JetBrains Mono, monospace">Claude · n8n</text>
+
+          <rect x="40" y="270" width="160" height="68" rx="16" fill="#1E2023" stroke="#3A3C40" />
+          <text x="120" y="300" text-anchor="middle" fill="#F3F0E8" font-size="18" font-weight="700">Field report</text>
+          <text x="120" y="322" text-anchor="middle" fill="#A8A59B" font-size="13" font-family="JetBrains Mono, monospace">generated</text>
+
+          <rect x="300" y="270" width="160" height="68" rx="16" fill="#1E2023" stroke="#3A3C40" />
+          <text x="380" y="300" text-anchor="middle" fill="#F3F0E8" font-size="18" font-weight="700">Gmail</text>
+          <text x="380" y="322" text-anchor="middle" fill="#A8A59B" font-size="13" font-family="JetBrains Mono, monospace">delivered</text>
+        </g>
+      </svg>
+      <p class="mono flow-caption">{t['hero.diagramCaption']}</p>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {[...tools, ...tools].map((tool) => (
+        <span>{tool}<i>✳</i></span>
+      ))}
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding-top: var(--nav-height);
+    padding-top: calc(var(--nav-height) + 80px);
+    padding-bottom: 0;
   }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(90deg, rgba(147, 51, 234, 0.06) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 20%, rgba(110, 231, 183, 0.03) 0%, transparent 50%),
-      radial-gradient(ellipse at 20% 80%, rgba(110, 231, 183, 0.02) 0%, transparent 50%);
-    pointer-events: none;
-  }
-  .hero-content {
-    position: relative;
-    z-index: 1;
+  .hero-grid {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 80px;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
     align-items: center;
+    padding-bottom: 88px;
   }
-  .hero-text {
-    max-width: 700px;
-  }
-  .hero-image {
-    display: flex;
+  .hero-status {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-  }
-  .hero-image-frame {
-    position: relative;
-    width: 600px;
-    height: 600px;
-    max-width: 100%;
-    overflow: hidden;
-  }
-  .hero-image-frame::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -10%;
-    right: -10%;
-    height: 50%;
-    background: linear-gradient(to bottom, transparent 0%, var(--color-bg) 100%);
-    z-index: 1;
-    pointer-events: none;
-  }
-  .hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, black 65%, transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, black 65%, transparent 100%);
-    mix-blend-mode: screen;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-muted-strong);
+    margin-bottom: 28px;
   }
   .hero-name {
     font-family: var(--font-heading);
-    font-size: clamp(48px, 10vw, 140px);
-    font-weight: 400;
-    line-height: 1;
-    margin: 24px 0 16px;
+    font-size: clamp(64px, 11vw, 124px);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
     color: var(--color-text);
+    margin-bottom: 28px;
   }
   .hero-subtitle {
-    font-size: clamp(14px, 2vw, 18px);
-    color: var(--color-muted);
-    line-height: 1.5;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--color-text);
     margin-bottom: 16px;
   }
   .hero-tagline {
-    font-size: clamp(13px, 1.5vw, 15px);
-    color: var(--color-muted-strong);
-    line-height: 1.6;
-    max-width: 600px;
-    margin-bottom: 40px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--color-muted);
+    max-width: 520px;
+    margin-bottom: 36px;
   }
   .hero-cta {
     display: flex;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 14px;
   }
+
+  .flow-card {
+    background: var(--color-ink);
+    color: #F3F0E8;
+    border-radius: 28px;
+    padding: 28px;
+    overflow: hidden;
+  }
+  .flow-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .muted-on-dark {
+    color: #A8A59B;
+  }
+  .accent-on-dark {
+    color: var(--color-accent);
+  }
+  .flow-svg {
+    display: block;
+  }
+  .flow {
+    stroke-dasharray: 6 8;
+    animation: flow 1.2s linear infinite;
+  }
+  .flow-caption {
+    color: #A8A59B;
+    margin-top: 12px;
+  }
+
+  .marquee {
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 2px solid var(--color-ink);
+    overflow: hidden;
+    padding: 20px 0;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 38s linear infinite;
+  }
+  .marquee-track span {
+    padding: 0 28px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 28px;
+    white-space: nowrap;
+    color: var(--color-ink);
+  }
+  .marquee-track i {
+    font-style: normal;
+    color: var(--color-accent);
+    margin-left: 28px;
+  }
+
+  @keyframes flow {
+    to { stroke-dashoffset: -56; }
+  }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+
   @media (max-width: 1024px) {
-    .hero-content {
+    .hero-grid {
       grid-template-columns: 1fr;
-      gap: 24px;
+      gap: 48px;
+      padding-bottom: 64px;
     }
-    .hero-image {
-      justify-content: center;
+  }
+  @media (max-width: 768px) {
+    .hero {
+      padding-top: calc(var(--nav-height) + 40px);
     }
-    .hero-image-frame {
-      width: min(460px, 92vw);
-      height: min(460px, 92vw);
-    }
-    .hero-tagline {
-      margin-bottom: 24px;
+    .marquee-track span {
+      font-size: 22px;
     }
   }
 </style>
