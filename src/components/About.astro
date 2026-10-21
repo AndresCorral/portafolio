@@ -1,6 +1,7 @@
 ---
 const t = Astro.props.t;
 const lang = Astro.props.lang || 'en';
+const prefix = lang === 'es' ? '/es' : '';
 const cvHref = lang === 'es' ? '/files/CV_Andres_Corral_ES.pdf' : '/files/CV_Andres_Corral_EN.pdf';
 const skills = [
   { label: 'Orchestration', items: ['n8n', 'Make', 'Zapier'] },
@@ -46,6 +47,7 @@ const skills = [
 
       <div class="about-cta">
         <a href={cvHref} class="btn btn-accent" download>↓ {t['about.downloadCv']}</a>
+        <a href={prefix + '/about'} class="btn">{t['about.more']} <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </div>
@@ -155,6 +157,11 @@ const skills = [
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+  }
+  .about-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
   }
   .mono {
     font-family: var(--font-mono);

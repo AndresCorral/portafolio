@@ -1,0 +1,7 @@
+---
+import AboutView from '../../components/AboutView.astro';
+
+const t = (await import('../../i18n/es.json')).default;
+---
+
+<AboutView lang="es" {t} />
