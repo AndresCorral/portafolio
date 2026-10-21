@@ -26,7 +26,7 @@ const projectTitle = (slug) => getProjectBySlug(slug)?.[lang]?.title ?? '';
           <p class="lead">{c.intro}</p>
           <div class="cta-row">
             <a href={mail(c.mailSubject)} class="btn btn-accent">{c.ctaPrimary} <span aria-hidden="true">→</span></a>
-            <a href={c.cvHref} class="btn" download>↓ {c.ctaCv}</a>
+            <a href={c.cvHref} class="btn" download="Andres_Corral_CV_Forward_Deployed_Engineer.pdf">↓ {c.ctaCv}</a>
           </div>
         </div>
         <div class="hero-photo">
