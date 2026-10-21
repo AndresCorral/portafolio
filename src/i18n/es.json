@@ -12,7 +12,7 @@
   "projects.results": "Resultados",
   "projects.all": "Algunos de mis proyectos",
   "about.title": "Sobre mí",
-  "about.description": "Forward Deployed Engineer con más de 5 años diseñando sistemas de automatización inteligente para empresas B2B en Latinoamérica. Especializado en arquitectura de agentes de IA, flujos avanzados en n8n e integración de LLMs (Claude, Gemini, GPT-4). He entregado más de 15 proyectos en producción abarcando bots conversacionales de ventas, motores SEO multi-cliente, pipelines autónomos de prospección y sistemas de venta social en LinkedIn.",
+  "about.description": "Forward Deployed Engineer con más de 5 años diseñando sistemas de automatización inteligente para clientes en Latinoamérica, Reino Unido, Alemania, Suecia, Estados Unidos y Fiji. Especializado en arquitectura de agentes de IA, flujos avanzados en n8n e integración de LLMs (Claude, Gemini, GPT-4). He entregado más de 15 proyectos en producción abarcando bots conversacionales de ventas, motores SEO multi-cliente, pipelines autónomos de prospección y sistemas de venta social en LinkedIn.",
   "about.downloadCv": "Descargar CV",
   "contact.title": "Contacto",
   "contact.email": "andresco70@gmail.com",
@@ -33,6 +33,6 @@
   "about.headline": "Construyo sistemas que trabajan mientras el equipo descansa.",
   "about.stat1": "años construyendo",
   "about.stat2": "proyectos en producción",
-  "about.stat3": "clientes B2B",
+  "about.stat3": "continentes con clientes",
   "about.more": "Más sobre mí"
 }
