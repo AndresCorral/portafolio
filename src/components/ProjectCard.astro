@@ -1,9 +1,10 @@
 ---
-const { project, index, lang } = Astro.props;
+const { project, index, total, lang } = Astro.props;
 const content = project[lang];
 const prefix = lang === 'es' ? '/es' : '';
 const featured = index === 0;
-const sizeClass = index <= 1 ? 'span-3' : 'span-2';
+const isLast = index === total - 1 && index > 1;
+const sizeClass = isLast ? 'span-6' : index <= 1 ? 'span-3' : 'span-2';
 const tags = project.stack.slice(0, featured ? 4 : 3);
 const extra = project.stack.length - tags.length;
 ---
@@ -56,6 +57,9 @@ const extra = project.stack.length - tags.length;
   .project-card.dark:hover {
     color: #F3F0E8;
   }
+  .span-6 {
+    grid-column: span 6;
+  }
   .span-3 {
     grid-column: span 3;
   }
@@ -98,6 +102,9 @@ const extra = project.stack.length - tags.length;
     line-height: 1.5;
     color: var(--color-muted);
   }
+  .span-6 .project-desc {
+    max-width: 720px;
+  }
   .project-card.dark .project-desc {
     font-size: 18px;
     color: #C9C6BC;
@@ -126,6 +133,7 @@ const extra = project.stack.length - tags.length;
   }
 
   @media (max-width: 860px) {
+    .span-6,
     .span-3,
     .span-2 {
       grid-column: span 1;

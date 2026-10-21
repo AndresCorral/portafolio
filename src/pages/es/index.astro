@@ -21,7 +21,7 @@ const t = (await import('../../i18n/es.json')).default;
         <h2 class="section-title">{t['projects.title']}</h2>
         <div class="projects-grid">
           {projects.map((project, i) => (
-            <ProjectCard {project} index={i} {lang} />
+            <ProjectCard {project} index={i} total={projects.length} {lang} />
           ))}
         </div>
       </div>

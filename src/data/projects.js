@@ -1,5 +1,123 @@
 export const projects = [
   {
+    slug: 'shopify',
+    year: '2026',
+    role: { en: 'Automation Architect', es: 'Arquitecto de Automatización' },
+    stack: ['Shopify', 'Klaviyo', 'Gorgias', 'n8n', 'Stripe', 'OpenAI', 'PostgreSQL', 'Shopify Admin API (GraphQL)', 'Slack'],
+    en: {
+      title: 'Shopify — DTC Commerce Automation Suite',
+      subtitle: 'Revenue recovery, retention, AI support and payment reconciliation for a Shopify brand selling across the US, Canada and Australia',
+      description: 'An automation suite for a Shopify DTC brand selling in the US, Canada and Australia — recovering lost revenue, driving repeat purchases, resolving support in real time and closing the loop on off-platform payments.',
+      problem: 'The brand was growing across three markets, but the operation hadn\'t kept up. Shoppers abandoned checkouts with no follow-up beyond a generic email. Customers who loved the product forgot to reorder before running out. The support team spent most of its day answering "where is my order?" by hand. And orders paid through corporate agreements sat as "pending" in Shopify until someone cross-checked the billing system and marked them paid manually — blocking fulfillment and distorting revenue reports.',
+      solution: [
+        'The suite is made of four automations that share one principle: each system does what it\'s best at. Klaviyo owns customer messaging, Shopify owns the order, Gorgias owns the human conversation, and n8n orchestrates everything that crosses those boundaries.',
+        { lead: '1. Abandoned checkout recovery (Klaviyo).', text: 'A three-step email and SMS flow triggered by Shopify\'s Started Checkout event. The first message is a plain reminder with the cart contents; the second adds social proof from product reviews; the third offers a single-use incentive only to first-time buyers and carts above a value threshold — so returning customers are never trained to wait for a coupon. The flow exits the moment an order is placed, and SMS is sent only to subscribers with recorded consent under TCPA, CASL and the Australian Spam Act.' },
+        { lead: '2. Replenishment and repeat purchase (Klaviyo + n8n).', text: 'Each consumable SKU has a consumption window. n8n calculates when each customer is about to run out — using their own purchase history when available and the SKU default otherwise — and writes that date to their Klaviyo profile. A date-triggered flow reaches the customer a few days before they run out, with a one-click link to a prefilled cart.' },
+        { lead: '3. AI support agent (embedded chat + Gorgias).', text: 'A chat widget embedded in the storefront, backed by an AI agent with direct, read-only access to Shopify and carrier tracking. It answers order status, shipping times, product and policy questions with live data instead of canned responses. Order details are only revealed after the shopper verifies with order number and email. When a request is ambiguous, involves money, or the customer is frustrated, the agent opens a Gorgias ticket with the full transcript, the order context and a suggested next action — so the human picks up without asking the customer to repeat themselves.' },
+        { lead: '4. Agreement payment reconciliation (Stripe + n8n + Shopify Admin API).', text: 'Orders placed under corporate agreements are billed through Stripe invoices, outside Shopify. Each invoice carries the Shopify order ID in its metadata. When Stripe fires the invoice.paid event, n8n verifies the webhook signature, locates the matching order, confirms the amount matches and the order is still pending, then marks it as paid through the Admin API, tags it as charged and attaches a note with the Stripe invoice ID and payment date. The workflow is idempotent: Stripe\'s retried webhooks never create duplicate updates. Any mismatch — wrong amount, missing order, already paid — is never auto-resolved: it goes to Slack for human review.' },
+      ],
+      decisions: [
+        { title: 'Klaviyo for messaging, n8n for logic.', text: 'Klaviyo\'s flows, deliverability and consent management are hard to beat, so messaging stays there. Custom calculations like per-customer replenishment dates live in n8n and feed Klaviyo through profile properties — the marketing team keeps editing copy and timing without touching code.' },
+        { title: 'Incentives are earned, not default.', text: 'Discounts in the recovery flow are gated by cart value and customer history to protect margin.' },
+        { title: 'The agent reads, humans decide.', text: 'The support agent has read-only access. Anything with financial impact — refunds, cancellations — is escalated with context, never executed autonomously.' },
+        { title: 'Strict matching over convenience.', text: 'Marking an order as paid affects revenue, tax reporting and fulfillment. The reconciliation only acts on exact matches; everything else is flagged.' },
+        { title: 'Compliance by market.', text: 'Consent handling was designed for three different regulatory regimes from day one, not retrofitted.' },
+      ],
+      results: [
+        'Abandoned checkouts followed up across email and SMS within the first hour, with incentives reserved for first-time buyers on qualifying carts — revenue recovered without eroding margin',
+        'Replenishment reminders timed to each customer\'s own buying rhythm instead of a fixed calendar',
+        'Order status, shipping and product questions answered instantly, 24/7, with live store data',
+        'Escalated tickets arrive in Gorgias with full transcript and order context — no customer is asked to repeat their issue',
+        'Agreement orders marked as paid within a minute of Stripe confirming payment, replacing a manual cross-check between two systems',
+        'Every automated payment update leaves an audit trail with Stripe reference and timestamp',
+      ],
+      architecture: `Shopify (Store)
+  ├─ Started Checkout ──→ Klaviyo: Abandoned Checkout Flow
+  │     ├─ Email 1 · 1h  (cart reminder)
+  │     ├─ Email/SMS 2 · 24h  (social proof · consent-gated SMS)
+  │     ├─ Email 3 · 48h  (conditional split: new customer + cart value → incentive)
+  │     └─ Exit on Placed Order
+  │
+  ├─ Order Fulfilled ──→ n8n: Replenishment Engine
+  │     ├─ SKU consumption windows (PostgreSQL)
+  │     ├─ Per-customer reorder interval from purchase history
+  │     └─ Klaviyo API → profile property: next_reorder_date
+  │           └─ Klaviyo: Date-Triggered Replenishment Flow → prefilled cart link
+  │
+  └─ Storefront Chat Widget ──→ n8n: Support Agent (LLM)
+        ├─ verify_customer (order # + email)
+        ├─ get_order_status (Shopify Admin API)
+        ├─ track_shipment (carrier tracking)
+        ├─ search_products / get_policy
+        └─ escalate_to_human → Gorgias API (transcript + order context + suggested action)
+
+Stripe (invoice.paid)
+  └─ Webhook ──→ n8n: Agreement Reconciliation
+        ├─ Verify Stripe signature
+        ├─ Idempotency check (event already processed?)
+        ├─ Read shopify_order_id from invoice metadata
+        ├─ Validate amount + financial status = pending (Shopify GraphQL)
+        ├─ ✓ orderMarkAsPaid → tag "charged" → note (Stripe invoice ID + date)
+        └─ ✗ mismatch → Slack alert for manual review`,
+    },
+    es: {
+      title: 'Shopify — Suite de automatización para comercio DTC',
+      subtitle: 'Recuperación de ingresos, retención, soporte con IA y conciliación de pagos para una marca Shopify que vende en Estados Unidos, Canadá y Australia',
+      description: 'Una suite de automatizaciones para una marca DTC en Shopify que vende en Estados Unidos, Canadá y Australia: recupera ventas perdidas, impulsa la recompra, resuelve el soporte en tiempo real y cierra el ciclo de los pagos por convenio.',
+      problem: 'La marca crecía en tres mercados, pero la operación no le seguía el ritmo. Los compradores abandonaban el checkout sin más seguimiento que un correo genérico. Clientes satisfechos con el producto olvidaban recomprar antes de que se les acabara. El equipo de soporte pasaba la mayor parte del día respondiendo a mano "¿dónde está mi pedido?". Y los pedidos pagados por convenios corporativos quedaban como "pendientes" en Shopify hasta que alguien revisaba el sistema de facturación y los marcaba como pagados manualmente, lo que frenaba el despacho y distorsionaba los reportes de ingresos.',
+      solution: [
+        'La suite reúne cuatro automatizaciones que comparten un principio: cada sistema hace lo que mejor sabe hacer. Klaviyo maneja la comunicación con el cliente, Shopify es la fuente de verdad del pedido, Gorgias maneja la conversación humana y n8n orquesta todo lo que cruza esos límites.',
+        { lead: '1. Recuperación de checkouts abandonados (Klaviyo).', text: 'Un flujo de tres pasos por email y SMS que se activa con el evento Started Checkout de Shopify. El primer mensaje es un recordatorio con el contenido del carrito; el segundo suma prueba social con reseñas del producto; el tercero ofrece un incentivo de un solo uso únicamente a compradores nuevos y carritos por encima de un umbral, para no acostumbrar a los clientes recurrentes a esperar el cupón. El flujo se detiene en cuanto entra el pedido, y el SMS solo se envía a suscriptores con consentimiento registrado según TCPA, CASL y la Spam Act australiana.' },
+        { lead: '2. Reabastecimiento y recompra (Klaviyo + n8n).', text: 'Cada SKU consumible tiene una ventana de consumo. n8n calcula cuándo se le va a acabar el producto a cada cliente, usando su propio historial de compras cuando existe y el valor del SKU en su defecto, y escribe esa fecha en su perfil de Klaviyo. Un flujo activado por fecha contacta al cliente unos días antes con un enlace a un carrito ya armado.' },
+        { lead: '3. Agente de soporte con IA (chat embebido + Gorgias).', text: 'Un widget de chat dentro de la tienda, respaldado por un agente de IA con acceso directo y de solo lectura a Shopify y al tracking de las transportadoras. Responde estado del pedido, tiempos de envío, preguntas de producto y políticas con datos en vivo, no con respuestas predefinidas. Los datos de un pedido solo se revelan después de verificar número de pedido y email. Cuando la solicitud es ambigua, involucra dinero o el cliente está molesto, el agente abre un ticket en Gorgias con la conversación completa, el contexto del pedido y una acción sugerida, para que la persona de soporte continúe sin pedirle al cliente que repita nada.' },
+        { lead: '4. Conciliación de pagos por convenio (Stripe + n8n + Shopify Admin API).', text: 'Los pedidos bajo convenios corporativos se facturan con invoices de Stripe, fuera de Shopify. Cada invoice lleva el ID del pedido de Shopify en sus metadatos. Cuando Stripe emite el evento invoice.paid, n8n verifica la firma del webhook, ubica el pedido correspondiente, confirma que el monto coincide y que sigue pendiente, lo marca como pagado mediante la Admin API, le pone la etiqueta "charged" y agrega una nota con el ID de la invoice y la fecha del pago. El flujo es idempotente: los reintentos de webhooks de Stripe nunca generan actualizaciones duplicadas. Cualquier inconsistencia (monto distinto, pedido inexistente, pedido ya pagado) nunca se resuelve sola: se envía a Slack para revisión humana.' },
+      ],
+      decisions: [
+        { title: 'Klaviyo para comunicar, n8n para la lógica.', text: 'La entregabilidad, los flujos y el manejo de consentimiento de Klaviyo son difíciles de igualar, así que la comunicación vive ahí. Los cálculos propios, como la fecha de recompra por cliente, viven en n8n y alimentan a Klaviyo mediante propiedades de perfil: el equipo de marketing sigue editando textos y tiempos sin tocar código.' },
+        { title: 'Los incentivos se ganan, no son la regla.', text: 'Los descuentos del flujo de recuperación dependen del valor del carrito y del historial del cliente para proteger el margen.' },
+        { title: 'El agente consulta, las personas deciden.', text: 'El agente de soporte tiene acceso de solo lectura. Todo lo que tiene impacto financiero (reembolsos, cancelaciones) se escala con contexto, nunca se ejecuta de forma autónoma.' },
+        { title: 'Coincidencia estricta antes que comodidad.', text: 'Marcar un pedido como pagado afecta ingresos, impuestos y despacho. La conciliación solo actúa sobre coincidencias exactas; todo lo demás se marca para revisión.' },
+        { title: 'Cumplimiento por mercado.', text: 'El manejo de consentimiento se diseñó desde el inicio para tres marcos regulatorios distintos, no se agregó después.' },
+      ],
+      results: [
+        'Seguimiento a los checkouts abandonados por email y SMS desde la primera hora, con incentivos reservados para compradores nuevos con carritos que califican: ventas recuperadas sin sacrificar margen',
+        'Recordatorios de recompra ajustados al ritmo de compra de cada cliente, no a un calendario fijo',
+        'Preguntas de estado del pedido, envíos y producto respondidas al instante, 24/7, con datos en vivo de la tienda',
+        'Los tickets escalados llegan a Gorgias con la conversación completa y el contexto del pedido: ningún cliente tiene que repetir su caso',
+        'Pedidos por convenio marcados como pagados en menos de un minuto desde que Stripe confirma el pago, reemplazando el cruce manual entre dos sistemas',
+        'Cada actualización automática de pago deja un rastro de auditoría con la referencia de Stripe y la fecha',
+      ],
+      architecture: `Shopify (Store)
+  ├─ Started Checkout ──→ Klaviyo: Abandoned Checkout Flow
+  │     ├─ Email 1 · 1h  (cart reminder)
+  │     ├─ Email/SMS 2 · 24h  (social proof · consent-gated SMS)
+  │     ├─ Email 3 · 48h  (conditional split: new customer + cart value → incentive)
+  │     └─ Exit on Placed Order
+  │
+  ├─ Order Fulfilled ──→ n8n: Replenishment Engine
+  │     ├─ SKU consumption windows (PostgreSQL)
+  │     ├─ Per-customer reorder interval from purchase history
+  │     └─ Klaviyo API → profile property: next_reorder_date
+  │           └─ Klaviyo: Date-Triggered Replenishment Flow → prefilled cart link
+  │
+  └─ Storefront Chat Widget ──→ n8n: Support Agent (LLM)
+        ├─ verify_customer (order # + email)
+        ├─ get_order_status (Shopify Admin API)
+        ├─ track_shipment (carrier tracking)
+        ├─ search_products / get_policy
+        └─ escalate_to_human → Gorgias API (transcript + order context + suggested action)
+
+Stripe (invoice.paid)
+  └─ Webhook ──→ n8n: Agreement Reconciliation
+        ├─ Verify Stripe signature
+        ├─ Idempotency check (event already processed?)
+        ├─ Read shopify_order_id from invoice metadata
+        ├─ Validate amount + financial status = pending (Shopify GraphQL)
+        ├─ ✓ orderMarkAsPaid → tag "charged" → note (Stripe invoice ID + date)
+        └─ ✗ mismatch → Slack alert for manual review`,
+    },
+  },
+  {
     slug: 'aurora',
     year: '2025',
     role: { en: 'AI Agent Architect', es: 'Arquitecto de Agentes IA' },
@@ -367,124 +485,6 @@ Schedule → NocoDB (seguimientos pendientes hoy)
 
 → Etapa 7: Notificación
   Slack (chat.postMessage) → Equipo notificado`,
-    },
-  },
-  {
-    slug: 'orbit',
-    year: '2026',
-    role: { en: 'Automation Architect', es: 'Arquitecto de Automatización' },
-    stack: ['Shopify', 'Klaviyo', 'Gorgias', 'n8n', 'Stripe', 'OpenAI', 'PostgreSQL', 'Shopify Admin API (GraphQL)', 'Slack'],
-    en: {
-      title: 'Orbit — DTC Commerce Automation Suite',
-      subtitle: 'Revenue recovery, retention, AI support and payment reconciliation for a Shopify brand selling across the US, Canada and Australia',
-      description: 'An automation suite for a Shopify DTC brand selling in the US, Canada and Australia — recovering lost revenue, driving repeat purchases, resolving support in real time and closing the loop on off-platform payments.',
-      problem: 'The brand was growing across three markets, but the operation hadn\'t kept up. Shoppers abandoned checkouts with no follow-up beyond a generic email. Customers who loved the product forgot to reorder before running out. The support team spent most of its day answering "where is my order?" by hand. And orders paid through corporate agreements sat as "pending" in Shopify until someone cross-checked the billing system and marked them paid manually — blocking fulfillment and distorting revenue reports.',
-      solution: [
-        'Orbit is a set of four automations that share one principle: each system does what it\'s best at. Klaviyo owns customer messaging, Shopify owns the order, Gorgias owns the human conversation, and n8n orchestrates everything that crosses those boundaries.',
-        { lead: '1. Abandoned checkout recovery (Klaviyo).', text: 'A three-step email and SMS flow triggered by Shopify\'s Started Checkout event. The first message is a plain reminder with the cart contents; the second adds social proof from product reviews; the third offers a single-use incentive only to first-time buyers and carts above a value threshold — so returning customers are never trained to wait for a coupon. The flow exits the moment an order is placed, and SMS is sent only to subscribers with recorded consent under TCPA, CASL and the Australian Spam Act.' },
-        { lead: '2. Replenishment and repeat purchase (Klaviyo + n8n).', text: 'Each consumable SKU has a consumption window. n8n calculates when each customer is about to run out — using their own purchase history when available and the SKU default otherwise — and writes that date to their Klaviyo profile. A date-triggered flow reaches the customer a few days before they run out, with a one-click link to a prefilled cart.' },
-        { lead: '3. AI support agent (embedded chat + Gorgias).', text: 'A chat widget embedded in the storefront, backed by an AI agent with direct, read-only access to Shopify and carrier tracking. It answers order status, shipping times, product and policy questions with live data instead of canned responses. Order details are only revealed after the shopper verifies with order number and email. When a request is ambiguous, involves money, or the customer is frustrated, the agent opens a Gorgias ticket with the full transcript, the order context and a suggested next action — so the human picks up without asking the customer to repeat themselves.' },
-        { lead: '4. Agreement payment reconciliation (Stripe + n8n + Shopify Admin API).', text: 'Orders placed under corporate agreements are billed through Stripe invoices, outside Shopify. Each invoice carries the Shopify order ID in its metadata. When Stripe fires the invoice.paid event, n8n verifies the webhook signature, locates the matching order, confirms the amount matches and the order is still pending, then marks it as paid through the Admin API, tags it as charged and attaches a note with the Stripe invoice ID and payment date. The workflow is idempotent: Stripe\'s retried webhooks never create duplicate updates. Any mismatch — wrong amount, missing order, already paid — is never auto-resolved: it goes to Slack for human review.' },
-      ],
-      decisions: [
-        { title: 'Klaviyo for messaging, n8n for logic.', text: 'Klaviyo\'s flows, deliverability and consent management are hard to beat, so messaging stays there. Custom calculations like per-customer replenishment dates live in n8n and feed Klaviyo through profile properties — the marketing team keeps editing copy and timing without touching code.' },
-        { title: 'Incentives are earned, not default.', text: 'Discounts in the recovery flow are gated by cart value and customer history to protect margin.' },
-        { title: 'The agent reads, humans decide.', text: 'The support agent has read-only access. Anything with financial impact — refunds, cancellations — is escalated with context, never executed autonomously.' },
-        { title: 'Strict matching over convenience.', text: 'Marking an order as paid affects revenue, tax reporting and fulfillment. The reconciliation only acts on exact matches; everything else is flagged.' },
-        { title: 'Compliance by market.', text: 'Consent handling was designed for three different regulatory regimes from day one, not retrofitted.' },
-      ],
-      results: [
-        'Abandoned checkouts followed up across email and SMS within the first hour, with incentives reserved for first-time buyers on qualifying carts — revenue recovered without eroding margin',
-        'Replenishment reminders timed to each customer\'s own buying rhythm instead of a fixed calendar',
-        'Order status, shipping and product questions answered instantly, 24/7, with live store data',
-        'Escalated tickets arrive in Gorgias with full transcript and order context — no customer is asked to repeat their issue',
-        'Agreement orders marked as paid within a minute of Stripe confirming payment, replacing a manual cross-check between two systems',
-        'Every automated payment update leaves an audit trail with Stripe reference and timestamp',
-      ],
-      architecture: `Shopify (Store)
-  ├─ Started Checkout ──→ Klaviyo: Abandoned Checkout Flow
-  │     ├─ Email 1 · 1h  (cart reminder)
-  │     ├─ Email/SMS 2 · 24h  (social proof · consent-gated SMS)
-  │     ├─ Email 3 · 48h  (conditional split: new customer + cart value → incentive)
-  │     └─ Exit on Placed Order
-  │
-  ├─ Order Fulfilled ──→ n8n: Replenishment Engine
-  │     ├─ SKU consumption windows (PostgreSQL)
-  │     ├─ Per-customer reorder interval from purchase history
-  │     └─ Klaviyo API → profile property: next_reorder_date
-  │           └─ Klaviyo: Date-Triggered Replenishment Flow → prefilled cart link
-  │
-  └─ Storefront Chat Widget ──→ n8n: Support Agent (LLM)
-        ├─ verify_customer (order # + email)
-        ├─ get_order_status (Shopify Admin API)
-        ├─ track_shipment (carrier tracking)
-        ├─ search_products / get_policy
-        └─ escalate_to_human → Gorgias API (transcript + order context + suggested action)
-
-Stripe (invoice.paid)
-  └─ Webhook ──→ n8n: Agreement Reconciliation
-        ├─ Verify Stripe signature
-        ├─ Idempotency check (event already processed?)
-        ├─ Read shopify_order_id from invoice metadata
-        ├─ Validate amount + financial status = pending (Shopify GraphQL)
-        ├─ ✓ orderMarkAsPaid → tag "charged" → note (Stripe invoice ID + date)
-        └─ ✗ mismatch → Slack alert for manual review`,
-    },
-    es: {
-      title: 'Orbit — Suite de automatización para comercio DTC',
-      subtitle: 'Recuperación de ingresos, retención, soporte con IA y conciliación de pagos para una marca Shopify que vende en Estados Unidos, Canadá y Australia',
-      description: 'Una suite de automatizaciones para una marca DTC en Shopify que vende en Estados Unidos, Canadá y Australia: recupera ventas perdidas, impulsa la recompra, resuelve el soporte en tiempo real y cierra el ciclo de los pagos por convenio.',
-      problem: 'La marca crecía en tres mercados, pero la operación no le seguía el ritmo. Los compradores abandonaban el checkout sin más seguimiento que un correo genérico. Clientes satisfechos con el producto olvidaban recomprar antes de que se les acabara. El equipo de soporte pasaba la mayor parte del día respondiendo a mano "¿dónde está mi pedido?". Y los pedidos pagados por convenios corporativos quedaban como "pendientes" en Shopify hasta que alguien revisaba el sistema de facturación y los marcaba como pagados manualmente, lo que frenaba el despacho y distorsionaba los reportes de ingresos.',
-      solution: [
-        'Orbit son cuatro automatizaciones que comparten un principio: cada sistema hace lo que mejor sabe hacer. Klaviyo maneja la comunicación con el cliente, Shopify es la fuente de verdad del pedido, Gorgias maneja la conversación humana y n8n orquesta todo lo que cruza esos límites.',
-        { lead: '1. Recuperación de checkouts abandonados (Klaviyo).', text: 'Un flujo de tres pasos por email y SMS que se activa con el evento Started Checkout de Shopify. El primer mensaje es un recordatorio con el contenido del carrito; el segundo suma prueba social con reseñas del producto; el tercero ofrece un incentivo de un solo uso únicamente a compradores nuevos y carritos por encima de un umbral, para no acostumbrar a los clientes recurrentes a esperar el cupón. El flujo se detiene en cuanto entra el pedido, y el SMS solo se envía a suscriptores con consentimiento registrado según TCPA, CASL y la Spam Act australiana.' },
-        { lead: '2. Reabastecimiento y recompra (Klaviyo + n8n).', text: 'Cada SKU consumible tiene una ventana de consumo. n8n calcula cuándo se le va a acabar el producto a cada cliente, usando su propio historial de compras cuando existe y el valor del SKU en su defecto, y escribe esa fecha en su perfil de Klaviyo. Un flujo activado por fecha contacta al cliente unos días antes con un enlace a un carrito ya armado.' },
-        { lead: '3. Agente de soporte con IA (chat embebido + Gorgias).', text: 'Un widget de chat dentro de la tienda, respaldado por un agente de IA con acceso directo y de solo lectura a Shopify y al tracking de las transportadoras. Responde estado del pedido, tiempos de envío, preguntas de producto y políticas con datos en vivo, no con respuestas predefinidas. Los datos de un pedido solo se revelan después de verificar número de pedido y email. Cuando la solicitud es ambigua, involucra dinero o el cliente está molesto, el agente abre un ticket en Gorgias con la conversación completa, el contexto del pedido y una acción sugerida, para que la persona de soporte continúe sin pedirle al cliente que repita nada.' },
-        { lead: '4. Conciliación de pagos por convenio (Stripe + n8n + Shopify Admin API).', text: 'Los pedidos bajo convenios corporativos se facturan con invoices de Stripe, fuera de Shopify. Cada invoice lleva el ID del pedido de Shopify en sus metadatos. Cuando Stripe emite el evento invoice.paid, n8n verifica la firma del webhook, ubica el pedido correspondiente, confirma que el monto coincide y que sigue pendiente, lo marca como pagado mediante la Admin API, le pone la etiqueta "charged" y agrega una nota con el ID de la invoice y la fecha del pago. El flujo es idempotente: los reintentos de webhooks de Stripe nunca generan actualizaciones duplicadas. Cualquier inconsistencia (monto distinto, pedido inexistente, pedido ya pagado) nunca se resuelve sola: se envía a Slack para revisión humana.' },
-      ],
-      decisions: [
-        { title: 'Klaviyo para comunicar, n8n para la lógica.', text: 'La entregabilidad, los flujos y el manejo de consentimiento de Klaviyo son difíciles de igualar, así que la comunicación vive ahí. Los cálculos propios, como la fecha de recompra por cliente, viven en n8n y alimentan a Klaviyo mediante propiedades de perfil: el equipo de marketing sigue editando textos y tiempos sin tocar código.' },
-        { title: 'Los incentivos se ganan, no son la regla.', text: 'Los descuentos del flujo de recuperación dependen del valor del carrito y del historial del cliente para proteger el margen.' },
-        { title: 'El agente consulta, las personas deciden.', text: 'El agente de soporte tiene acceso de solo lectura. Todo lo que tiene impacto financiero (reembolsos, cancelaciones) se escala con contexto, nunca se ejecuta de forma autónoma.' },
-        { title: 'Coincidencia estricta antes que comodidad.', text: 'Marcar un pedido como pagado afecta ingresos, impuestos y despacho. La conciliación solo actúa sobre coincidencias exactas; todo lo demás se marca para revisión.' },
-        { title: 'Cumplimiento por mercado.', text: 'El manejo de consentimiento se diseñó desde el inicio para tres marcos regulatorios distintos, no se agregó después.' },
-      ],
-      results: [
-        'Seguimiento a los checkouts abandonados por email y SMS desde la primera hora, con incentivos reservados para compradores nuevos con carritos que califican: ventas recuperadas sin sacrificar margen',
-        'Recordatorios de recompra ajustados al ritmo de compra de cada cliente, no a un calendario fijo',
-        'Preguntas de estado del pedido, envíos y producto respondidas al instante, 24/7, con datos en vivo de la tienda',
-        'Los tickets escalados llegan a Gorgias con la conversación completa y el contexto del pedido: ningún cliente tiene que repetir su caso',
-        'Pedidos por convenio marcados como pagados en menos de un minuto desde que Stripe confirma el pago, reemplazando el cruce manual entre dos sistemas',
-        'Cada actualización automática de pago deja un rastro de auditoría con la referencia de Stripe y la fecha',
-      ],
-      architecture: `Shopify (Store)
-  ├─ Started Checkout ──→ Klaviyo: Abandoned Checkout Flow
-  │     ├─ Email 1 · 1h  (cart reminder)
-  │     ├─ Email/SMS 2 · 24h  (social proof · consent-gated SMS)
-  │     ├─ Email 3 · 48h  (conditional split: new customer + cart value → incentive)
-  │     └─ Exit on Placed Order
-  │
-  ├─ Order Fulfilled ──→ n8n: Replenishment Engine
-  │     ├─ SKU consumption windows (PostgreSQL)
-  │     ├─ Per-customer reorder interval from purchase history
-  │     └─ Klaviyo API → profile property: next_reorder_date
-  │           └─ Klaviyo: Date-Triggered Replenishment Flow → prefilled cart link
-  │
-  └─ Storefront Chat Widget ──→ n8n: Support Agent (LLM)
-        ├─ verify_customer (order # + email)
-        ├─ get_order_status (Shopify Admin API)
-        ├─ track_shipment (carrier tracking)
-        ├─ search_products / get_policy
-        └─ escalate_to_human → Gorgias API (transcript + order context + suggested action)
-
-Stripe (invoice.paid)
-  └─ Webhook ──→ n8n: Agreement Reconciliation
-        ├─ Verify Stripe signature
-        ├─ Idempotency check (event already processed?)
-        ├─ Read shopify_order_id from invoice metadata
-        ├─ Validate amount + financial status = pending (Shopify GraphQL)
-        ├─ ✓ orderMarkAsPaid → tag "charged" → note (Stripe invoice ID + date)
-        └─ ✗ mismatch → Slack alert for manual review`,
     },
   },
 ];
