@@ -51,8 +51,21 @@ const prefix = '/es';
 
       <section class="project-section">
         <h2 class="section-heading">Solución</h2>
-        <p class="project-text">{content.solution}</p>
+        {Array.isArray(content.solution)
+          ? content.solution.map((p) => typeof p === 'string'
+              ? <p class="project-text">{p}</p>
+              : <p class="project-text"><strong>{p.lead}</strong> {p.text}</p>)
+          : <p class="project-text">{content.solution}</p>}
       </section>
+
+      {content.decisions && (
+        <section class="project-section">
+          <h2 class="section-heading">Decisiones clave</h2>
+          <ul class="results-list">
+            {content.decisions.map(d => <li class="result-item"><strong>{d.title}</strong> {d.text}</li>)}
+          </ul>
+        </section>
+      )}
 
       <section class="project-section">
         <h2 class="section-heading">{t['projects.results']}</h2>
@@ -172,6 +185,9 @@ const prefix = '/es';
     font-size: 15px;
     line-height: 1.8;
     color: var(--color-text);
+  }
+  .project-text + .project-text {
+    margin-top: 16px;
   }
   .results-list {
     list-style: none;
