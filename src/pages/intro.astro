@@ -1,0 +1,7 @@
+---
+import IntroView from '../components/IntroView.astro';
+
+const t = (await import('../i18n/en.json')).default;
+---
+
+<IntroView lang="en" {t} />
